@@ -15,10 +15,10 @@ refs.loadMoreBtn.addEventListener('click', onLoadMore);
 refs.galleryContainer.addEventListener('click', onOpenModal);
 
 // пофискить кнопку
-// const loadMoreBtn = new LoadMoreBtn({
-//   selector: '[data-action="load-more"]',
-//   hidden: true,
-// });
+const loadMoreBtn = new LoadMoreBtn({
+  selector: '[data-action="load-more"]',
+  hidden: true,
+});
 const apiService = new ApiService();
 
 // поиск по строке input и рендер шаблона страницы
@@ -29,16 +29,18 @@ function onSearch(e) {
   apiService.resetPage();
   apiService.fetchImages().then(appendArticlesMarkup);
   // добавить проверку на ошибку, если пользователь не корректно ввел данные поиска
+  loadMoreBtn.show();
   apiService.resetPage();
   clearArticlesContainer();
 }
 // добавить скролл
-// function fetchImages() {
-//   apiService.fetchImages().then(gallery => {
-//     appendArticlesMarkup(gallery);
-//     loadMoreBtn.enable();
-//   });
-// }
+function fetchImages() {
+  loadMoreBtn.disable();
+  apiService.fetchImages().then(gallery => {
+    appendArticlesMarkup(gallery);
+    loadMoreBtn.enable();
+  });
+}
 
 // запуск кнопки load more
 function onLoadMore() {
